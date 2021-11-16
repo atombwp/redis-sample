@@ -41,13 +41,12 @@ func main() {
 		DB:            0,
 		SentinelAddrs: getSentinelAddrs(),
 	})
-	ctx := context.Background()
 
+	ctx := context.Background()
 	go setkey(rdb, ctx)
 	go getkey(rdb, ctx)
 
 	forever := make(chan bool)
-
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
 
@@ -77,7 +76,6 @@ func setkey(rdb *redis.Client, ctx context.Context) {
 
 	for {
 		time.Sleep(time.Millisecond * 200)
-
 		s := &Something{
 			Added:  time.Now(),
 			Number: x,
@@ -88,7 +86,6 @@ func setkey(rdb *redis.Client, ctx context.Context) {
 		if err := rdb.Set(ctx, key, s, expire).Err(); err != nil {
 			fmt.Printf("fail to set key:%s %s\n", key, err)
 		}
-
 		x++
 	}
 }
