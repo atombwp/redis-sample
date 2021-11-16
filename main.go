@@ -50,7 +50,6 @@ func main() {
 
 	go func() {
 		x := 3
-
 		for {
 			x++
 			s := &Something{
@@ -58,19 +57,17 @@ func main() {
 				Number: x,
 			}
 
-			err := rdb.Set(ctx, "mykey", s, time.Duration(0)).Err()
-			if err != nil {
+			if err := rdb.Set(ctx, "mykey", s, time.Duration(0)).Err(); err != nil {
 				fmt.Printf("got an err here : %s\n", err)
 			}
 
 			time.Sleep(time.Millisecond * 200)
-
 		}
 	}()
 
 	go func() {
-
 		for {
+			time.Sleep(time.Millisecond * 200)
 			res := rdb.Get(ctx, "mykey")
 			if err := res.Err(); err != nil {
 				fmt.Printf("err retriving value %s\n", err)
@@ -78,13 +75,11 @@ func main() {
 			}
 
 			s := Something{}
-			err := res.Scan(&s)
-			if err != nil {
+			if err := res.Scan(&s); err != nil {
 				fmt.Printf("failed to unmarshal %s\n", err)
+				continue
 			}
 			fmt.Printf("%+v\n", s)
-
-			time.Sleep(time.Millisecond * 200)
 		}
 	}()
 
