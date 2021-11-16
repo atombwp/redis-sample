@@ -58,7 +58,7 @@ func main() {
 			}
 
 			if err := rdb.Set(ctx, "mykey", s, time.Duration(0)).Err(); err != nil {
-				fmt.Printf("got an err here : %s\n", err)
+				fmt.Printf("fail to set key: %s\n", err)
 			}
 
 			time.Sleep(time.Millisecond * 200)
@@ -70,13 +70,13 @@ func main() {
 			time.Sleep(time.Millisecond * 200)
 			res := rdb.Get(ctx, "mykey")
 			if err := res.Err(); err != nil {
-				fmt.Printf("err retriving value %s\n", err)
+				fmt.Printf("fail to get value for key, %s\n", err)
 				continue
 			}
 
 			s := Something{}
 			if err := res.Scan(&s); err != nil {
-				fmt.Printf("failed to unmarshal %s\n", err)
+				fmt.Printf("fail to unmarshal %s\n", err)
 				continue
 			}
 			fmt.Printf("%+v\n", s)
