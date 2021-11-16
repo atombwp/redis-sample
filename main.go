@@ -30,8 +30,8 @@ func (s *Something) UnmarshalBinary(data []byte) error {
 }
 
 func getSentinelAddrs() []string {
-	sentineladdrs := os.Getenv("SENTINELS")
-	return strings.Split(sentineladdrs, ";")
+	x := os.Getenv("SENTINELS")
+	return strings.Split(x, ";")
 }
 
 func main() {
